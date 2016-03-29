@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{post.pk}}번 게시물 보기</title>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <style>
+    body{
+      background-color: #D8DEAE;
+    }
+    </style>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <h3>{{ post.pk }} - {{ post.title }}</h3>
+  <div class="post_container">{{ post.content|safe|linebreaks }}</div>  <!--파이프를 이용해서 자동개행 안전한 컨텐츠를 필터로 걸러내서 보여줌, 순서도 중요함-->
+
+  <div class = "comment_container"{{ comment.content|safe|linebreaks }}>
+    {% for comment in comments %}
+
+
+    <p>
+      <!--{{ comment.pk}}--> - {{comment.content}}</p>
+    {% endfor %}
+
+
+  </div>
+
+  <form method = "POST" action = "{% url 'create_comment' pk=post.pk %}">
+    {% csrf_token %}
+    {{ comment_form.as_p}}
+    <p><button type="submit">
+      저장
+    </button></p>
+
+  </form>
+
+</body>
+</html>
